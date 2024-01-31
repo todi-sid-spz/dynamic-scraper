@@ -1,0 +1,126 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+nav {
+  background-color: #33D1FF;
+  color: #3633FF;
+  padding: 10px;
+  margin-right: 1000px;
+  text-align: center;
+}
+
+.container {
+  margin: 20px;
+}
+
+h1, h3 {
+  color: #333;
+}
+
+label {
+  margin-right: 10px;
+}
+
+input {
+  margin-bottom: 10px;
+  padding: 5px;
+  width: 200px;
+}
+
+button {
+  background-color: #4caf50;
+  margin: 10px;
+  color: white;
+  padding: 10px 15px;
+  margin: 10px;
+  cursor: pointer;
+  border: none;
+  margin-bottom: 20px;
+}
+
+button:disabled {
+  background-color: #cccccc;
+  margin: 10px;
+  cursor: not-allowed;
+}
+
+#json-response {
+  margin-top: 20px;
+}
+
+.json-response-wrapper {
+  border: 1px solid #ccc;
+  padding: 10px;
+}
+
+.json-response-item {
+  font-family: monospace;
+  white-space: pre-wrap;
+  margin-bottom: 5px;
+}
+
+.json-response-item:last-child {
+  margin-bottom: 0;
+}
+
+.json-response-item::before {
+  content: '';
+}
+
+.json-response-item::after {
+  content: ',';
+}
+
+.json-response-item:last-child::after {
+  content: '';
+}
+
+.json-response-wrapper::before {
+  content: '{';
+}
+
+.json-response-wrapper::after {
+  content: '}';
+}
