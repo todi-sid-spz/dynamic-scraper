@@ -117,10 +117,4 @@ button:disabled {
   content: '';
 }
 
-.json-response-wrapper::before {
-  content: '{';
-}
 
-.json-response-wrapper::after {
-  content: '}';
-}
