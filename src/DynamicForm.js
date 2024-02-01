@@ -5,48 +5,48 @@ const DynamicForm = () => {
     { tag: "", selector: "", children: [] },
   ]);
 
+   // Function to add a new input field
+   const addInput = () => {
+    setInputs([...inputs, {tag:'',selector:'',children:[]}]);
+  };
+
+    // Function to remove the last input field
+  const removeInput = () => {
+    setInputs(inputs.slice(0, -1));
+  };
+
   // Function to add a new input field
   const addNestedInput = (path) => {
-    path = String(path);
-    console.log(path);
-    setInputs((inputs) => {
-      const newInputs = JSON.parse(JSON.stringify(inputs)); // Deep clone the inputs
+    setInputs((prevInputs) => {
+      const newInputs = JSON.parse(JSON.stringify(prevInputs)); // Deep clone the inputs
+      const pathArr = path.split("-").map((x) => parseInt(x));
       let current = newInputs;
-      path.split("-").forEach((index, i, arr) => {
-        if (i === arr.length - 1) {
-          if (!current[index].children) {
-            current[index].children = [];
-          }
-          current[index].children.push({ tag: "", selector: "", children: [] });
-        } else {
-          current = current[index].children;
-        }
+
+      pathArr.forEach((index) => {
+        current = current[index].children;
       });
+
+      current.push({ tag: "", selector: "", children: [] });
       return newInputs;
     });
   };
 
   // Function to remove the last input field
-  const removeInput = (path) => {
-    path = String(path);
-    setInputs((inputs) => {
-      const newInputs = JSON.parse(JSON.stringify(inputs)); // Deep clone the inputs
+  const removeNestedInput = (path) => {
+    setInputs((prevInputs) => {
+      const newInputs = JSON.parse(JSON.stringify(prevInputs)); // Deep clone the inputs
       const pathArr = path.split("-").map((x) => parseInt(x));
       let current = newInputs;
+
       pathArr.forEach((index, i) => {
         if (i === pathArr.length - 1) {
-          if (pathArr.length === 1) {
-            // Remove top-level input
-            current.children.splice(index, 1);
-            console.log(current);
-          } else {
-            // Remove nested input
-            current.children.splice(index, 1);
-          }
+          current = current[index].children;
+          current.splice(0, 1);
         } else {
           current = current[index].children;
         }
       });
+
       return newInputs;
     });
   };
@@ -111,7 +111,7 @@ const DynamicForm = () => {
             <button onClick={() => addNestedInput(currentPath)}>
               Add Child Input
             </button>
-            <button onClick={() => removeInput(currentPath)}>
+            <button onClick={() => removeNestedInput(currentPath)}>
               remove Child Input
             </button>
           </div>
@@ -160,7 +160,11 @@ const DynamicForm = () => {
         <label htmlFor="URL">URL: </label>
         <input type="text" placeholder="Enter URL" />
       </div>
-      <button onClick={() => addNestedInput("")}>Add Input</button>
+      <button onClick={addInput}>Add Input</button>
+
+      <button onClick={removeInput} disabled={inputs.length === 1}>
+         Remove Input
+      </button>
       {/* Render input fields based on state */}
       {renderInputs(inputs, handleInputChange, addNestedInput)}
 
