@@ -1,6 +1,5 @@
-import logo from './logo.svg';
-import './App.css';
-import DynamicForm from './DynamicForm';
+import "./App.css";
+import DynamicForm from "./DynamicForm";
 
 function App() {
   return (

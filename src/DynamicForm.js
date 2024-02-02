@@ -4,13 +4,15 @@ const DynamicForm = () => {
   const [inputs, setInputs] = useState([
     { tag: "", selector: "", children: [] },
   ]);
+  const [url, setUrl] = useState("");
+  const [result, setResult] = useState("");
 
-   // Function to add a new input field
-   const addInput = () => {
-    setInputs([...inputs, {tag:'',selector:'',children:[]}]);
+  // Function to add a new input field
+  const addInput = () => {
+    setInputs([...inputs, { tag: "", selector: "", children: [] }]);
   };
 
-    // Function to remove the last input field
+  // Function to remove the last input field
   const removeInput = () => {
     setInputs(inputs.slice(0, -1));
   };
@@ -148,6 +150,31 @@ const DynamicForm = () => {
     return result;
   }
 
+  function updateUrl(e) {
+    setUrl(e.target.value);
+  }
+
+  function submitForm() {
+    try {
+      var contents = createJsonObject(inputs); // Parsing the string as JSON
+      fetch("/.netlify/functions/scraper", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json", // Make sure to set the content type
+        },
+        body: JSON.stringify({ url, contents }), // Sending the parsed JSON object
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          setResult(JSON.stringify(data, null, 2));
+        });
+    } catch (err) {
+      console.error("Parsing error:", err);
+      // Handle parsing error (maybe display an error message to the user)
+      setResult("Invalid JSON format in contents." + err);
+    }
+  }
+
   return (
     <div className="container">
       <nav>
@@ -158,17 +185,17 @@ const DynamicForm = () => {
       <h3>Dynamic Web Scrapper Form</h3>
       <div>
         <label htmlFor="URL">URL: </label>
-        <input type="text" placeholder="Enter URL" />
+        <input type="text" onChange={updateUrl} placeholder="Enter URL" />
       </div>
       <button onClick={addInput}>Add Input</button>
 
       <button onClick={removeInput} disabled={inputs.length === 1}>
-         Remove Input
+        Remove Input
       </button>
       {/* Render input fields based on state */}
       {renderInputs(inputs, handleInputChange, addNestedInput)}
 
-      <button>Scrape</button>
+      <button onClick={submitForm}>Scrape</button>
 
       <div className="json-response">
         <h2>JSON Response:</h2>
@@ -176,6 +203,15 @@ const DynamicForm = () => {
           <pre>{JSON.stringify(createJsonObject(inputs), null, 4)}</pre>
         </div>
       </div>
+
+      {result !== "" && (
+        <div>
+          <h2>Scraped Data:</h2>
+          <div className="json-response-wrapper">
+            <pre>{result}</pre>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
