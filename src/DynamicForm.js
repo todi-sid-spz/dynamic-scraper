@@ -177,11 +177,11 @@ const DynamicForm = () => {
 
   return (
     <div className="container">
-      <nav>
+      {/* <nav>
         <h1>
           <strong>Spiralyze</strong>
         </h1>
-      </nav>
+      </nav> */}
       <h3>Dynamic Web Scrapper Form</h3>
       <div>
         <label htmlFor="URL">URL: </label>
