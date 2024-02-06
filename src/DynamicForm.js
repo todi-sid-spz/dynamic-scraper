@@ -167,11 +167,25 @@ const DynamicForm = () => {
         .then((response) => response.json())
         .then((data) => {
           setResult(JSON.stringify(data, null, 2));
+
+          // Check for missing elements
+          checkMissingElements(data);
         });
     } catch (err) {
       console.error("Parsing error:", err);
       // Handle parsing error (maybe display an error message to the user)
       setResult("Invalid JSON format in contents." + err);
+    }
+  }
+
+  function checkMissingElements(scrapedData) {
+    const expectedTags = inputs.map((input) => input.tag);
+    const scrapedTags = Object.keys(scrapedData);
+    const missingElements = expectedTags.filter((tag) => !scrapedTags.includes(tag));
+  
+    if (missingElements.length > 0) {
+      const missingElementsMsg = missingElements.map((tag) => `Element "${tag}" is missing`).join("\n");
+      setResult((prevResult) => prevResult + "\n\n" + missingElementsMsg);
     }
   }
 
