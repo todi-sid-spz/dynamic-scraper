@@ -178,16 +178,23 @@ const DynamicForm = () => {
     }
   }
 
-  function checkMissingElements(scrapedData) {
+  function checkMissingElements(parsedData) {
     const expectedTags = inputs.map((input) => input.tag);
-    const scrapedTags = Object.keys(scrapedData);
-    const missingElements = expectedTags.filter((tag) => !scrapedTags.includes(tag));
+    const missingElements = [];
+    console.log(expectedTags);
+    expectedTags.forEach((tag) => {
+      if (parsedData[tag] === "") {
+        console.log(tag);
+        missingElements.push(`Element "${tag}" is missing`);
+      }
+    });
   
     if (missingElements.length > 0) {
-      const missingElementsMsg = missingElements.map((tag) => `Element "${tag}" is missing`).join("\n");
+      const missingElementsMsg = missingElements.join("\n");
       setResult((prevResult) => prevResult + "\n\n" + missingElementsMsg);
     }
   }
+  
 
   return (
     <div className="container">
