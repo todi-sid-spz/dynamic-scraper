@@ -181,10 +181,8 @@ const DynamicForm = () => {
   function checkMissingElements(parsedData) {
     const expectedTags = inputs.map((input) => input.tag);
     const missingElements = [];
-    console.log(expectedTags);
     expectedTags.forEach((tag) => {
       if (parsedData[tag] === "") {
-        console.log(tag);
         missingElements.push(`Element "${tag}" is missing`);
       }
     });
@@ -227,7 +225,7 @@ const DynamicForm = () => {
 
       {result !== "" && (
         <div>
-          <h2>Scraped Data_testing:</h2>
+          <h2>Scraped Data:</h2>
           <div className="json-response-wrapper">
             <pre>{result}</pre>
           </div>
